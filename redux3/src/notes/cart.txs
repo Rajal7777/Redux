@@ -1,0 +1,112 @@
+1) const cartSlice = createSlice({
+  A slice = a piece of global state + logic to update it.
+
+  name: "cart" 
+  This is just the identifier for the slice.
+
+
+
+2) This is your starting data.
+items: array of products in cart
+totalQuantity: total number of items
+
+initialState: {
+  items: [],
+  totalQuantity: 0,
+},
+
+example:-
+{
+  items: [
+    { id: 1, name: "Book", quantity: 2, totalPrice: 40 }
+  ],
+  totalQuantity: 2
+}
+
+3)
+⚙️ Step 5: Reducers (CORE LOGIC)
+
+Reducers = functions that change the state.
+
+ a)addItemToCart(state, action)
+ 👉 action.payload = the item you are adding
+
+  1. const newItem = action.payload;
+ You receive a product (like {id, price, title})
+
+2.  Check:
+👉 “Is this item already in the cart?”
+const existingItem = state.items.find((item) => item.id === newItem.id);
+
+3. Every time you add → total count increases
+ state.totalQuantity++;
+
+Case 1: Item NOT in cart
+if (!existingItem) {
+    //Add new item:
+
+create a new cart entry
+state.items.push({
+  id: newItem.id,
+  price: newItem.price,
+  quantity: 1,
+  totalPrice: newItem.price,
+  name: newItem.title
+});
+
+
+Case 2: Item already exists
+else {
+  existingItem.quantity++;
+  existingItem.totalPrice = existingItem.totalPrice + newItem.price;
+}
+
+
+➖ removeItemFromCart
+👉 action.payload = item id
+removeItemFromCart(state, action)
+
+export const cartActions = cartSlice.actions;
+cartActions.addItemToCart
+cartActions.removeItemFromCart
+
+👉 You use these in components with dispatch()
+
+
+What will the state look like?
+
+dispatch(addItemToCart({ id: 1, price: 10, title: "Pen" }));
+dispatch(addItemToCart({ id: 1, price: 10, title: "Pen" }));
+
+{
+  items: [
+    {
+      id: 1,
+      price: 10,
+      quantity: 2,
+      totalPrice: 20,
+      name: "Pen"
+    }
+  ],
+  totalQuantity: 2
+}
+
+{
+  items: [
+    {
+      id: 2,
+      price: 5,
+      quantity: 1,
+      totalPrice: 5,
+      name: "Pencil"
+    },
+    {
+      id: 1,
+      price: 10,
+      quantity: 1,
+      totalPrice: 10,
+      name: "Pen"
+    },
+  ],
+  totalQuantity: 2
+}

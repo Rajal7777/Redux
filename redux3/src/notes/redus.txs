@@ -1,0 +1,4 @@
+createSlice:   A slice = a piece of global state + logic to update it.
+configureStore: to set up reducer store
+useSelector: for reading the state.value
+useReducer: allows to get the reducer function from the store
