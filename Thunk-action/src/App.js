@@ -6,7 +6,7 @@ import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import Notification from "./components/UI/Notification";
 
-import { sendCartData } from "./store/Cart";
+import { sendCartData } from "./store/Cart-action";
 
 //stop adding the empty data to the database in 1st render with flag
 let isInitial = true;

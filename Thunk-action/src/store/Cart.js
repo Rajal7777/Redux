@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { uiActions } from "./ui-slice";
+
 
 const cartSlice = createSlice({
   name: "cart",
@@ -51,58 +51,11 @@ const cartSlice = createSlice({
   },
 });
 
-//Action thunk => a function that returns another function
-export const sendCartData = (cart) => {
-  //retun a function /tells UI to show the notification, data is being loaded
-  return async (dispatch) => {
-    dispatch(
-      uiActions.showNotification({
-        status: "pending",
-        title: "Sending",
-        message: "sending cart data",
-      }),
-    );
 
-    //fetch() sends data to Firebase
-    //'PUT' => replace entire data
-    const sendRequest = async () => {
-      const response = await fetch(
-        "https://practise-f5bd6-default-rtdb.firebaseio.com/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to send the data");
-      }
-    };
-
-    try {
-      await sendRequest();
-
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "Success",
-          message: "Sent cart data successfully",
-        }),
-      );
-    } catch (error) {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "Error!",
-          message: "Sending cart data failed!",
-        }),
-      );
-    }
-  };
 
   //alernate using object destructuring
   // export const { addItemToCart, removeItemFromCart} = cartSlice.actions;
-};
+
 export const cartActions = cartSlice.actions; //exporting the reducer functions
 
 export default cartSlice;
