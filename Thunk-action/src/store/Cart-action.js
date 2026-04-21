@@ -17,11 +17,11 @@ export const fetchCartData = () => {
     };
 
     try {
-      const cartData = await fetchData();
+      const cartData = (await fetchData()) || { items: [], totalQuantity: 0 };
       dispatch(
         cartActions.replaceCart({
-          items: cartData.items || [], // [] is fall back value when there is no data ledt in the items
-          totalQuantity: cartData.totalQuantity,
+          items: cartData.items || [], // [] is fall back value when there is no data left in the items
+          totalQuantity: cartData.totalQuantity || 0,
         }),
       );
     } catch (error) {
@@ -55,7 +55,10 @@ export const sendCartData = (cart) => {
         "https://practise-f5bd6-default-rtdb.firebaseio.com/cart.json",
         {
           method: "PUT",
-          body: JSON.stringify(cart),
+          body: JSON.stringify({
+            items: cart.items,
+            totalQuantity: cart.totalQuantity,
+          }),
         },
       );
 

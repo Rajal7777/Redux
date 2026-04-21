@@ -6,7 +6,7 @@ import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import Notification from "./components/UI/Notification";
 
-import { sendCartData } from "./store/Cart-action";
+import { fetchCartData, sendCartData } from "./store/Cart-action";
 
 //stop adding the empty data to the database in 1st render with flag
 let isInitial = true;
@@ -19,13 +19,18 @@ function App() {
   const notification = useSelector((state) => state.ui.notification);
 
   useEffect(() => {
-    //stop 1st time this code runs no empty cart data
+    dispatch(fetchCartData());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
 
-    dispatch(sendCartData(cart));
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
   }, [cart, dispatch]);
 
   return (

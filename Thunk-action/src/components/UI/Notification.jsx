@@ -1,7 +1,5 @@
 import classes from "./Notification.module.css";
 
-console.log(classes);
-
 const Notification = (props) => {
   let specialClasses = "";
 
