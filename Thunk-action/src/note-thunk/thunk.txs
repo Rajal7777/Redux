@@ -1,0 +1,75 @@
+✅ Thunk = a function that returns another function
+
+Instead of returning an object, you return a function:
+
+const myThunk = () => {
+  return (dispatch) => {
+    // async code here
+  };
+};
+
+Why?
+
+Because now you can:
+
+do async work (fetch, API calls)
+dispatch multiple actions
+control timing
+
+👉 Think of it like:
+
+“Delay the action until I finish some work”
+
+
+export const sendCardData = (cart) => {
+  return async (dispatch) => {
+    This is a Thunk Action Creator
+
+sendCardData(cart) → returns a function
+Redux will execute that function and give you dispatch
+
+
+
+const sendRequest = async () => {
+  const response = await fetch(
+    "https://react-http-6b4a6.firebaseio.com/cart.json",
+    {
+      method: "PUT",
+      body: JSON.stringify(cart),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to send the data');
+  }
+};
+
+What’s happening here?
+fetch() sends data to Firebase
+PUT = replace entire data
+
+👉 Important:
+
+PUT overwrites everything at /cart
+Not like POST (which adds)
+
+
+
+#calls🎯  --> dispatch(sendCardData(cart));
+ Flow Summary (Important)
+
+Here’s what happens when you call:
+Internally:
+Redux sees a function → runs it
+Shows pending
+Sends request to Firebase
+If success → show success
+If fail → show error
+
+💡 Simple Analogy
+
+Think of thunk like a delivery guy:
+
+Normal action = “Send message”
+Thunk =
+“Go to server → wait → then tell me success or failure”
